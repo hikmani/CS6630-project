@@ -22,22 +22,50 @@
     </div>
 
     <div id="content">
-        <svg id="bar-chart">
-            <g id="x-axis"></g>
-            <g id="y-axis"></g>
-            <g id="lines"></g>
-            <g id="overlay">
-                
+
+        <div class="toolbox">
+            <span>
+                <label>Metric:</label>
+                <select id="metric">
+                  <option value="world_share">World Share</option>
+                  <option selected value="covid_utah">Price</option>
+                  <option value="YGPC">Yearly Gallons Per Capita</option>
+                  <option value="GDPperCapita">GDP Per Capita ( USD )</option>
+                </select>
+              </span>
+              <span>
+                <label>Unit</label>
+                <select id="unit">
+                </select>
+              </span>
+        
+              <span>
+                <label>Currency</label>
+                <select id="currency">
+                </select>
+              </span>
+        </div>
+        
+        <div class="row chart">
+            <div class="chart">
+              <h2>Bar Charts</h2>
+              <div id="Barchart-div">
+              </div>
+            </div>
+        </div> 
                 <line></line>
             </g>
         </svg>
+
         <button id="clear-button">Reset</button>
         <svg id="map">
             <g id="graticules"></g>
             <g id="countries"></g>
         </svg>
         <button id="clear-button">Clear Selected Countries</button>
+
     </div>
 </body>
+<script src="js\barchart.js"></script>
 
 </html>
