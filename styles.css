@@ -64,10 +64,7 @@ svg {
   height: 500px;
 }
 
-/* style of bar charts */
-.bar-chart rect {
-  fill: rgb(79, 175, 211);
-}
+
 
 .bar-chart .hovered {
   fill: #979696;

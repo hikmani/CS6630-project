@@ -57,7 +57,14 @@ function update(data){
       .call(d3.axisLeft(heightScale))
       .attr('transform', `translate(${MARGIN.left}, ${MARGIN.top})`);
 
+      //Define a color scale 
+      //const colorScale = d3.scaleSequential(d3.interpolateRgb("red", "blue")(0.5))
+      const colorScale = d3.scaleSequential(d3.interpolateRgb("red", "turquoise "))
 
+      // Set input domain for color scale based on the min and max
+      colorScale.domain([0,
+          d3.max(data, d => parseInt(d['Price Per Gallon (USD)']))
+      ])
 
       //Render Bar chart:
 
@@ -72,6 +79,7 @@ function update(data){
           .attr('y', d => heightScale(parseInt(d['Price Per Gallon (USD)'])) + MARGIN.top)
           .attr('height', d => heightScale(0) - heightScale(parseInt(d['Price Per Gallon (USD)'])))
           .attr('opacity', 0)
+          .attr('fill',d => colorScale(parseFloat(d['Price Per Gallon (USD)'])))
           .transition()
           .duration(ANIMATION_DURATION)
           .delay(ANIMATION_DURATION)
