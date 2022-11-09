@@ -11,7 +11,7 @@
     <script src="https://d3js.org/d3-geo-projection.v4.js"></script>
     <script src="https://d3js.org/topojson.v3.js"></script>
 
-    <script src="js/line-chart.js"></script>
+   
     <script src="js/map.js"></script>
     <script src="js/script.js"></script>
 </head>
@@ -46,7 +46,7 @@
               </span>
         </div>
         
-        <div class="row chart">
+        <div class="row chart" id="bar-chart">
             <div class="chart">
               <h2>Bar Charts</h2>
               <div id="Barchart-div">
@@ -58,14 +58,18 @@
         </svg>
 
         <button id="clear-button">Reset</button>
+        <div></div>
         <svg id="map">
             <g id="graticules"></g>
             <g id="countries"></g>
         </svg>
         <button id="clear-button">Clear Selected Countries</button>
+        </div>
 
     </div>
 </body>
 <script src="js\barchart.js"></script>
+<script src="js\map.js"></script>
+
 
 </html>
