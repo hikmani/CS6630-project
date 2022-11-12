@@ -6,19 +6,22 @@
 
 /* SVG and div styling */
 #content {
-    margin: auto;
-    width: 1550px;
+  margin: 0px 0px 0px 0px;
+
 }
 
 #map {
     width: 800px;
     height: 500px;
-    
+
 }
 
-#bar-chart {
-    width: 700px;
-    height: 500px;
+#Barchart-div {
+  float: left;
+
+}
+#Linechart-div {
+  float: left;
 }
 
 #info-box {
@@ -50,9 +53,8 @@ h2 {
   text-align: center;
 }
 
-.row {
 
-}
+
 
 .toolbox span {
   padding: 5px;
