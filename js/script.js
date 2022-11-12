@@ -36,6 +36,8 @@ async function loadData () {
     mapData: null,
     worldMap: null,
     barChart: null,
+    lineChart: null
+
   };
   
   
@@ -50,10 +52,14 @@ async function loadData () {
     // Creates the view objects with the global state passed in 
     const worldMap = new MapViz(petrolPricesViz);
     const barChart = new BarChart(petrolPricesViz);
+    const lineChart = new LineChart(petrolPricesViz);
+
     // const lineChart = new LineChart(petrolPricesViz);
   
     petrolPricesViz.worldMap = worldMap;
     petrolPricesViz.barChart = barChart;
+    petrolPricesViz.lineChart = lineChart;
+
     // petrolPricesViz.lineChart = lineChart;
   
     //TODO add interactions for Clear Selected Countries button

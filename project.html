@@ -44,32 +44,34 @@
                 <select id="currency">
                 </select>
               </span>
+
+              <button id="clear-button">Reset</button>
+
         </div>
         
-        <div class="row chart" id="bar-chart">
-            <div class="chart">
-              <h2>Bar Charts</h2>
-              <div id="Barchart-div">
-              </div>
-            </div>
-        </div> 
+        <div id="Barchart-div"></div>
+
                 <line></line>
             </g>
         </svg>
 
-        <button id="clear-button">Reset</button>
-        <div></div>
+        <div id="mapDiv">
         <svg id="map">
             <g id="graticules"></g>
             <g id="countries"></g>
         </svg>
         <button id="clear-button">Clear Selected Countries</button>
         </div>
+        <div id="Linechart-div">
+
+        </div>
+
 
     </div>
 </body>
 <script src="js\barchart.js"></script>
 <script src="js\map.js"></script>
+<script src="js\linechart.js"></script>
 
 
 </html>

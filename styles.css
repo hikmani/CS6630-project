@@ -13,6 +13,7 @@
 #map {
     width: 800px;
     height: 500px;
+    
 }
 
 #bar-chart {
@@ -50,8 +51,7 @@ h2 {
 }
 
 .row {
-  display: flex;
-  flex-wrap: wrap;
+
 }
 
 .toolbox span {
@@ -69,3 +69,14 @@ svg {
 .bar-chart .hovered {
   fill: #979696;
 }
+
+    /* style of line charts */
+    .line-chart {
+      stroke: rgb(79, 175, 211);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    text {
+      fill: black;
+    }
