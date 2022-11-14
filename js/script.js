@@ -71,6 +71,13 @@ async function loadData () {
     //   lineChart.drawContinents();
     // });
   
-  
+    //Interaction: Update bar chart according to dropdown: 
+    document.getElementById('metric').addEventListener('change', function() {
+      console.log('You selected: ', this.value);
+      petrolPricesViz.barChart.update(this.value)
+    });
+
+
+
   });
   
