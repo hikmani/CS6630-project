@@ -9,6 +9,7 @@ class MapViz {
             .scale(150) // This set the size of the map
             .translate([400, 250]); // This moves the map to the center of the SVG
 
+        
 
 
 
@@ -24,7 +25,7 @@ class MapViz {
             countries.push(x.id);
         }
 
-        let path = d3.geoPath(projection);
+        let path = d3.geoPath().projection(projection);
         //console.log(path);
         let graticule = d3.geoGraticule();
 
@@ -33,10 +34,20 @@ class MapViz {
         map_svg
             .select('#graticules')
             .append('path')
-            .attr('d', path(graticule()))
+            .datum(graticule)
+            .attr('d', path)
             .attr('fill', 'none')
             .attr('stroke', 'black')
             .style('opacity', 0.2);
+
+        map_svg
+            .select('#graticules')
+            .append('path')
+            .datum(graticule.outline())
+            .attr('d', path)
+            .attr('fill', 'none')
+            .attr('stroke', 'black')
+            .style('opacity', 0.6);
 
 
         let petrol_data = this.petrolPricesViz.petrolData;
@@ -113,8 +124,8 @@ class MapViz {
             .attr("transform", "translate(140 470)")
             .text("660k");
 
-        let groupedCovidData = d3.group(petrol_data, (d) => d.iso_code);
-        //console.log(groupedCovidData);
+        // let groupedCovidData = d3.group(petrol_data, (d) => d.iso_code);
+        // //console.log(groupedCovidData);
 
         stateD3.on("click", (d) => this.updateSelectedCountries(d));
 
@@ -124,34 +135,36 @@ class MapViz {
 
     }
 
-    //     updateSelectedCountries (data) {
+        updateSelectedCountries (data) {
 
-    //       // d3.select("#overlay").selectAll("*").remove();
+          // d3.select("#overlay").selectAll("*").remove();
+        //   console.log(data.iso_code);
 
-    //       let checkifexists = this.petrolPricesViz.selectedLocations.indexOf(
-    //         data.currentTarget.__data__.id
-    //       );
-    //       if(checkifexists == -1){
-    //         this.petrolPricesViz.selectedLocations.push(data.currentTarget.__data__.id);
-    //         data.currentTarget.setAttribute("class", "country selected");
-    //       }
-    //       else{
-    //         this.petrolPricesViz.selectedLocations.splice(checkifexists, 1);
-    //         data.currentTarget.setAttribute("class", "country");
+          let checkifexists = this.petrolPricesViz.selectedLocations.indexOf(
+            data.currentTarget.__data__.id
+          );
+          if(checkifexists == -1){
+            this.petrolPricesViz.selectedLocations.push(data.currentTarget.__data__.id);
+            data.currentTarget.setAttribute("class", "country selected");
+          }
+          else{
+            this.petrolPricesViz.selectedLocations.splice(checkifexists, 1);
+            data.currentTarget.setAttribute("class", "country");
 
-    //       }
-    //   //----
-    //       let selected = this.petrolPricesViz.selectedLocations;
-    //       console.log(this.petrolPricesViz.selectedLocations);
-    //       if (selected.length > 0) {
-    //         this.petrolPricesViz.lineChart.drawCountries(selected);
-    //       } 
-    //       else {
-    //         this.petrolPricesViz.lineChart.drawContinents();
-    //       }
+          }
+      //----
+          let selected = this.petrolPricesViz.selectedLocations;
+          console.log(this.petrolPricesViz.selectedLocations);
+
+          if (selected.length > 0) {
+            this.petrolPricesViz.barChart.drawBars(selected);
+          } 
+          else {
+            this.petrolPricesViz.barChart;
+          }
 
 
 
-    //     }
+        }
 
 }

@@ -54,7 +54,17 @@ h2 {
 }
 
 
+#countries > .country.selected {
+  stroke-width: 2px;
+  stroke: black;
+  stroke-opacity: 1;
+}
 
+#countries > .country {
+  stroke-width: 1px;
+  stroke: black;
+  stroke-opacity: 0.1;
+}
 
 .toolbox span {
   padding: 5px;

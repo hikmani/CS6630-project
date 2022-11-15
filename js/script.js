@@ -26,10 +26,6 @@ async function loadData () {
     return { petrolData, mapData };
   }
   
-  
-  // ******* STATE MANAGEMENT *******
-  // This should be all you need, but feel free to add to this if you need to 
-  // communicate across the visualizations
   const petrolPricesViz = {
     selectedLocations: [],
     petrolData: null,
@@ -64,16 +60,18 @@ async function loadData () {
   
     //TODO add interactions for Clear Selected Countries button
 
-    // d3.select("#clear-button").on("click", () => {
-    //   //d3.select("#overlay").selectAll("*").remove();
-    //   d3.select("#countries").selectAll("path").attr("class", "country");
-    //   petrolPricesViz.selectedLocations = [];
-    //   lineChart.drawContinents();
-    // });
+    d3.select("#clear-button").on("click", () => {
+      //d3.select("#overlay").selectAll("*").remove();
+      d3.select("#countries").selectAll("path").attr("class", "country");
+      petrolPricesViz.selectedLocations = [];
+      barChart.update("Price Per Gallon (USD)");
+    });
   
     //Interaction: Update bar chart according to dropdown: 
     document.getElementById('metric').addEventListener('change', function() {
       console.log('You selected: ', this.value);
+      petrolPricesViz.selectedLocations = [];
+      d3.select("#countries").selectAll("path").attr("class", "country");
       petrolPricesViz.barChart.update(this.value)
     });
 
