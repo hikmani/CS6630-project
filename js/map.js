@@ -6,12 +6,10 @@ class MapViz {
 
         // Set up the map projection
         this.projection = d3.geoWinkel3()
-            .scale(150) // This set the size of the map
-            .translate([400, 250]); // This moves the map to the center of the SVG
+            .scale(150) 
+            .translate([400, 250]); 
 
-        
-
-
+ 
 
         let world_data = this.petrolPricesViz.mapData;
         console.log("abc" + world_data);
@@ -152,12 +150,7 @@ class MapViz {
         d3.select("#legend")
             .append("text")
             .attr("transform", "translate(770 470)")
-            .text(function(){
-                
-            });
-
-        // let groupedCovidData = d3.group(petrol_data, (d) => d.iso_code);
-        // //console.log(groupedCovidData);
+            .text(gMax);
 
         stateD3.on("click", (d) => this.updateSelectedCountries(d));
 
@@ -169,8 +162,6 @@ class MapViz {
 
         updateSelectedCountries (data) {
 
-          // d3.select("#overlay").selectAll("*").remove();
-        //   console.log(data.iso_code);
 
           let checkifexists = this.petrolPricesViz.selectedLocations.indexOf(
             data.currentTarget.__data__.id
@@ -184,7 +175,7 @@ class MapViz {
             data.currentTarget.setAttribute("class", "country");
 
           }
-      //----
+
           let selected = this.petrolPricesViz.selectedLocations;
           console.log(this.petrolPricesViz.selectedLocations);
 
