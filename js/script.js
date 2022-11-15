@@ -65,6 +65,8 @@ async function loadData () {
       d3.select("#countries").selectAll("path").attr("class", "country");
       petrolPricesViz.selectedLocations = [];
       barChart.update("Price Per Gallon (USD)");
+      worldMap.updateMap("Price Per Gallon (USD)");
+
     });
   
     //Interaction: Update bar chart according to dropdown: 
@@ -73,6 +75,8 @@ async function loadData () {
       petrolPricesViz.selectedLocations = [];
       d3.select("#countries").selectAll("path").attr("class", "country");
       petrolPricesViz.barChart.update(this.value)
+      petrolPricesViz.worldMap.updateMap(this.value)
+
     });
 
 

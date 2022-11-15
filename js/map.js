@@ -5,7 +5,7 @@ class MapViz {
         this.petrolPricesViz = petrolPricesViz;
 
         // Set up the map projection
-        const projection = d3.geoWinkel3()
+        this.projection = d3.geoWinkel3()
             .scale(150) // This set the size of the map
             .translate([400, 250]); // This moves the map to the center of the SVG
 
@@ -14,24 +14,23 @@ class MapViz {
 
 
         let world_data = this.petrolPricesViz.mapData;
-        let pData = 1.1
         console.log("abc" + world_data);
 
-        let nation = topojson.feature(world_data, world_data.objects.countries);
-        console.log(nation.features);
+        this.nation = topojson.feature(world_data, world_data.objects.countries);
+        console.log(this.nation.features);
 
-        let countries = [];
-        for (let x of nation.features) {
-            countries.push(x.id);
+        this.countries = [];
+        for (let x of this.nation.features) {
+            this.countries.push(x.id);
         }
 
-        let path = d3.geoPath().projection(projection);
+        let path = d3.geoPath().projection(this.projection);
         //console.log(path);
         let graticule = d3.geoGraticule();
 
-        let map_svg = d3.select('#map');
+        this.map_svg = d3.select('#map');
 
-        map_svg
+        this.map_svg
             .select('#graticules')
             .append('path')
             .datum(graticule)
@@ -40,7 +39,7 @@ class MapViz {
             .attr('stroke', 'black')
             .style('opacity', 0.2);
 
-        map_svg
+        this.map_svg
             .select('#graticules')
             .append('path')
             .datum(graticule.outline())
@@ -50,17 +49,30 @@ class MapViz {
             .style('opacity', 0.6);
 
 
+        var metric = document.getElementById("metric");
+        var metricValue = metric.value;
+        this.updateMap(metricValue);
+
+    }
+
+
+
+    
+    updateMap(metric){
+
         let petrol_data = this.petrolPricesViz.petrolData;
         console.log(petrol_data);
+        let pData = 10
+
 
         const dict = {};
-        for (let y of countries) {
+        for (let y of this.countries) {
             let temp = true
             for (let x of petrol_data) {
                 if (y == x.iso_code) {
-                    if (x['Price Per Gallon (USD)'] != "") {
-                        dict[y] = parseFloat(x['Price Per Gallon (USD)']);
-                        console.log(x['Price Per Gallon (USD)']);
+                    if (x[metric] != "") {
+                        dict[y] = parseFloat(x[metric]);
+                        console.log(petrol_data);
                         temp = false
                     }
                 }
@@ -73,8 +85,14 @@ class MapViz {
         var values = Object.values(dict);
 
         console.log("Aa" + d3.max(values));
+        let path = d3.geoPath().projection(this.projection);
 
-        let colorScale = d3.scaleSequentialLog(d3.interpolateRdYlGn).domain([d3.max(values), d3.min(values)]);
+
+    
+
+
+        let colorScale = d3.scaleSequentialLog(d3.interpolateYlOrRd).domain([d3.min(values), (d3.max(values)+20)]);
+        
 
         // var step = d3.scaleLinear()
         //     .domain([1, 8])
@@ -85,18 +103,18 @@ class MapViz {
         //     .range(['#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'])
 
 
-        map_svg
+        d3.select('#map')
             .select('#countries')
             .append('path')
-            .attr('d', path(nation))
+            .attr('d', path(this.nation))
             .attr('fill', 'none')
             .attr('stroke', 'lightgrey')
 
 
-        const stateD3 = map_svg
+        const stateD3 = this.map_svg
             .select('#countries')
             .selectAll('path')
-            .data(nation.features)
+            .data(this.nation.features)
             .enter()
             .append('path')
             .attr('d', path)
@@ -111,18 +129,32 @@ class MapViz {
             .attr('width', 150)
             .attr('y', 0)
             .attr('height', 25)
-            .attr("transform", "translate(0 475)")
+            .attr("transform", "translate(650 475)")
             .attr('fill', 'url(#color-gradient)');
 
-        d3.select("#legend")
-            .append("text")
-            .attr("transform", "translate(5 470)")
-            .text("0");
+        let legendColor = d3.range(10).map(d=> ({color:d3.interpolateYlOrRd(d/10), value:d}))
+        let extent = d3.extent(legendColor, d => d.value); 
+        
+        let linearGradient = d3.select('#color-gradient')
+        .selectAll("stop")
+        .data(legendColor)
+        .enter().append("stop")
+        .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+        .attr("stop-color", d => d.color);
 
         d3.select("#legend")
             .append("text")
-            .attr("transform", "translate(140 470)")
-            .text("660k");
+            .attr("transform", "translate(655 470)")
+            .text("0");
+
+        let gMax = d3.max(values)
+        
+        d3.select("#legend")
+            .append("text")
+            .attr("transform", "translate(770 470)")
+            .text(function(){
+                
+            });
 
         // let groupedCovidData = d3.group(petrol_data, (d) => d.iso_code);
         // //console.log(groupedCovidData);
@@ -160,7 +192,8 @@ class MapViz {
             this.petrolPricesViz.barChart.drawBars(selected);
           } 
           else {
-            this.petrolPricesViz.barChart;
+            this.petrolPricesViz.barChart.update("Price Per Gallon (USD)");
+
           }
 
 

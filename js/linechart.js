@@ -54,13 +54,24 @@ update(){
     d3.select('#Linechart-x-axis').selectAll('line')
     .remove()
 
-    //    .domain(this.data.map(d => d.Country))
 
 
     d3.select('#Linechart-y-axis')
     .call(d3.axisLeft(yScale))
     .attr('transform', `translate(${MARGIN.left}, ${MARGIN.top})`);
 
+    
+      // const lineGenerator = d3.line()
+      // .x((data) => xScale(data.x))
+      // .y((data) => yScale(data.y) + MARGIN.top);
+    
+      // d3.select('#Linechart-div')
+      // .select('path')
+      // .datum(data)
+      // .transition(2200)
+      // .attr('d', lineGenerator);
+    
+    
 }
 
 

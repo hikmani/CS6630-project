@@ -6,7 +6,7 @@ setup();
 const CHART_WIDTH = 1000;
 const CHART_HEIGHT = 500;
 const MARGIN = { left: 50, bottom: 20, top: 20, right: 20 };
-const ANIMATION_DURATION = 300;
+const ANIMATION_DURATION = 100;
 
 
 
@@ -113,13 +113,16 @@ console.log(metric);
 
         //Define a color scale 
         //const colorScale = d3.scaleSequential(d3.interpolateRgb("red", "blue")(0.5))
-        const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(filteredData.map(function(value,index) { return value["Country"]; }));
 
-        // Set input domain for color scale based on the min and max
-        colorScale.domain([0,
-            d3.max(filteredData, d => parseInt(d[metric]))
-        ])
+        // const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(filteredData.map(function(value,index) { return value["Country"]; }));
 
+        // // Set input domain for color scale based on the min and max
+        // colorScale.domain([0,
+        //     d3.max(filteredData, d => parseInt(d[metric]))
+        // ])
+
+      // let colorScale = d3.scaleSequentialLog(d3.interpolateRdYlGn).domain([d3.max(values), d3.min(values)]);
+ 
         d3.select('#ylabel')
         .attr("x", "0")
         .attr("y", 15)
@@ -144,7 +147,8 @@ console.log(metric);
             .attr('y', d => heightScale(parseInt(d[metric])) + MARGIN.top)
             .attr('height', d => heightScale(0) - heightScale(parseInt(d[metric])))
             .attr('opacity', 0)
-            .attr('fill',d => colorScale((d.Country)))
+            // .attr('fill',d => colorScale((d.Country)))
+            .attr('fill','#1cb2f5')
             .transition()
             .duration(ANIMATION_DURATION)
             .delay(ANIMATION_DURATION)
@@ -162,7 +166,7 @@ console.log(metric);
     
           exit => exit
             .transition()
-            .duration(ANIMATION_DURATION)
+            .duration(10)
             .attr('width', 0)
             .attr('height', 0)
             .remove()
@@ -238,12 +242,12 @@ console.log(metric);
     
             //Define a color scale 
             //const colorScale = d3.scaleSequential(d3.interpolateRgb("red", "blue")(0.5))
-            const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(filteredData.map(function(value,index) { return value["Country"]; }));
+            // const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(filteredData.map(function(value,index) { return value["Country"]; }));
     
-            // Set input domain for color scale based on the min and max
-            colorScale.domain([0,
-                d3.max(filteredData, d => parseInt(d[metric]))
-            ])
+            // // Set input domain for color scale based on the min and max
+            // colorScale.domain([0,
+            //     d3.max(filteredData, d => parseInt(d[metric]))
+            // ])
     
             d3.select('#ylabel')
             .attr("x", "0")
@@ -269,7 +273,8 @@ console.log(metric);
                 .attr('y', d => heightScale(parseInt(d[metric])) + MARGIN.top)
                 .attr('height', d => heightScale(0) - heightScale(parseInt(d[metric])))
                 .attr('opacity', 0)
-                .attr('fill',d => colorScale((d.Country)))
+                // .attr('fill',d => colorScale((d.Country)))
+                .attr('fill','#1cb2f5')
                 .transition()
                 .duration(ANIMATION_DURATION)
                 .delay(ANIMATION_DURATION)
