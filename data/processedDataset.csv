@@ -184,3 +184,6 @@ S.No,S#,Country,Daily Oil Consumption (Barrels),World Share,Yearly Gallons Per C
 165,166,British Virgin Islands,"1,240",0%,647.6,3.6,0.95,200.93,"34,246","9,513",15,VGB
 170,171,Saint Helena,70,0%,180.2,5.53,1.46,309.21,"7,800","1,410",8,SHN
 178,179,Saint Pierre & Miquelon,660,0%,1705.1,8.27,2.19,462.13,"34,900","4,220",2,SPM
+,,Antartica,0.01,0%,0.01,0.01,0.01,0.01,0.01,0.01,0.01,ATA
+,,Greenland,0.01,0%,0.01,0.01,0.01,0.01,0.01,0.01,0.01,GRL
+
