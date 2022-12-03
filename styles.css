@@ -76,7 +76,48 @@ svg {
   height: 500px;
 }
 
+#table {
+  margin-right: 30px;
+  padding-top: 25px;
+  width: 800px;
+  height: 810px;
+  overflow-y: auto;
+  float: left;
 
+}
+
+#table svg {
+  width: 100%;
+  height: 40px;
+  padding: 0px;
+
+
+}
+.table-cell {
+  font-size: 11px;
+  line-height: 1em;
+}
+
+.header {
+  fill: aliceblue;
+  stroke: #fff;
+  stroke-width: 2px;
+  cursor: pointer;
+}
+
+.header-text {
+  font-weight: 700;
+  alignment-baseline: hanging;
+}
+
+.td rect {
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.background:hover {
+  background-color: #e8e1e1;
+}
 
 .bar-chart .hovered {
   fill: #979696;

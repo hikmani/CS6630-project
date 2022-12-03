@@ -33,7 +33,14 @@ async function loadData () {
     petrolPricesViz.barChart = barChart;
     petrolPricesViz.lineChart = lineChart;
 
-  
+    let tableDiv = d3.select('#table')
+      let table = new CountryTable(tableDiv, petrolPricesViz.petrolData);
+
+      function updateTableFilter (input) {
+        table.updateFilter(input);
+      }
+
+
     //TODO add interactions for Clear Selected Countries button
 
     d3.select("#clear-button").on("click", () => {
