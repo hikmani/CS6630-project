@@ -6,7 +6,7 @@ setup();
 const CHART_WIDTH = 1000;
 const CHART_HEIGHT = 500;
 const MARGIN = { left: 50, bottom: 20, top: 20, right: 20 };
-const ANIMATION_DURATION = 100;
+const ANIMATION_DURATION = 4;
 
 
 
@@ -125,7 +125,8 @@ console.log(metric);
  
         d3.select('#ylabel')
         .attr("x", "0")
-        .attr("y", 15)
+        .attr("y", 12)
+        .style("font", "12px times")
         .text(metric);
 
         d3.select('#xlabel')
