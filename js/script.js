@@ -12,13 +12,13 @@ async function loadData () {
     mapData: null,
     worldMap: null,
     barChart: null,
-    lineChart: null
-
+    lineChart: null,
+    table: null
   };
   
   
   loadData().then((loadedData) => {
-    console.log('Here is the imported data:', loadedData.petrolData);
+    //console.log('Here is the imported data:', loadedData.petrolData);
   
     // Store the loaded data into the petrolPricesViz
     petrolPricesViz.petrolData = loadedData.petrolData;
@@ -29,16 +29,18 @@ async function loadData () {
     const barChart = new BarChart(petrolPricesViz);
     const lineChart = new LineChart(petrolPricesViz);
 
+    let tableDiv = d3.select('#table')
+    const table = new CountryTable(tableDiv, petrolPricesViz.petrolData);
+
+    function updateTableFilter (input) {
+      table.updateFilter(input);
+    }
+
     petrolPricesViz.worldMap = worldMap;
     petrolPricesViz.barChart = barChart;
     petrolPricesViz.lineChart = lineChart;
+    petrolPricesViz.table = table;
 
-    let tableDiv = d3.select('#table')
-      let table = new CountryTable(tableDiv, petrolPricesViz.petrolData);
-
-      function updateTableFilter (input) {
-        table.updateFilter(input);
-      }
 
 
     //TODO add interactions for Clear Selected Countries button
@@ -49,16 +51,20 @@ async function loadData () {
       petrolPricesViz.selectedLocations = [];
       barChart.update("Price Per Gallon (USD)");
       worldMap.updateMap("Price Per Gallon (USD)");
+      table.resetTable();
+      document.getElementById('metric').options[1].selected =true;
+
 
     });
   
     //Interaction: Update bar chart according to dropdown: 
     document.getElementById('metric').addEventListener('change', function() {
-      console.log('You selected: ', this.value);
+      //console.log('You selected: ', this.value);
       petrolPricesViz.selectedLocations = [];
       d3.select("#countries").selectAll("path").attr("class", "country");
       petrolPricesViz.barChart.update(this.value)
       petrolPricesViz.worldMap.updateMap(this.value)
+      table.resetTable();
 
     });
 
