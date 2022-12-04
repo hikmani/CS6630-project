@@ -29,7 +29,7 @@ class LineChart{
   
       this.data = petrolPricesViz.petrolData;
       this.update();
-      console.log(this.data)
+      //console.log(this.data)
       
   }
 

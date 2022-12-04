@@ -58,6 +58,8 @@ class MapViz {
     
     updateMap(metric){
 
+        console.log("change")
+
         let petrol_data = this.petrolPricesViz.petrolData;
         console.log(petrol_data);
         let pData = 10
@@ -70,7 +72,6 @@ class MapViz {
                 if (y == x.iso_code) {
                     if (x[metric] != "") {
                         dict[y] = parseFloat(x[metric]);
-                        console.log(petrol_data);
                         temp = false
                     }
                 }
@@ -82,14 +83,40 @@ class MapViz {
 
         var values = Object.values(dict);
 
+        console.log(dict);
+
+
         console.log("Aa" + d3.max(values));
         let path = d3.geoPath().projection(this.projection);
 
-
+        let colorScale 
     
 
+        console.log(metric)
+        colorScale = d3.scaleSequentialLog(d3.interpolateGnBu).domain([d3.min(values), (d3.max(values))]);
 
-        let colorScale = d3.scaleSequentialLog(d3.interpolateYlOrRd).domain([d3.min(values), (d3.max(values)+20)]);
+        // if(metric == "Price Per Gallon (USD)"){
+        //     colorScale = d3.scaleSequentialLog(d3.interpolateGnBu).domain([d3.min(values), (d3.max(values)+20)]);
+        // }
+
+        if( metric == "World Share"){
+            colorScale = d3.scaleSequentialLog(d3.interpolateGnBu)
+            console.log(typeof((d3.max(values))))
+            console.log(values)
+        }
+
+
+        // if( metric == "Yearly Gallons Per Capita"){
+        //     colorScale = d3.scaleSequentialLog(d3.interpolateYlGn).domain([d3.min(values), (d3.max(values))]);
+        // }
+        // if(metric == "GDP Per Capita ( USD )"){
+        //     colorScale = d3.scaleSequentialLog(d3.interpolateCubehelixDefault).domain([d3.min(values), (d3.max(values))]);
+        // }   
+
+        
+
+
+
         
 
         // var step = d3.scaleLinear()
@@ -113,14 +140,23 @@ class MapViz {
             .select('#countries')
             .selectAll('path')
             .data(this.nation.features)
-            .enter()
-            .append('path')
-            .attr('d', path)
-            .attr('fill', (d) => colorScale(dict[d.id]))
-            .attr('stroke', 'lightgrey')
-            .on('click', (d) => {
-                console.log('clicked', d)
-            })
+            .join(
+                enter => enter
+                .append('path')
+                .attr('d', path)
+                .attr('fill', (d) => colorScale(parseFloat(dict[d.id])))
+                .attr('stroke', 'lightgrey')
+                .on('click', (d) => {
+                    console.log('clicked', d)}),
+          
+                update => update
+                .attr('fill', (d) => colorScale(parseFloat(dict[d.id])))
+                .attr('stroke', 'lightgrey')
+                .on('click', (d) => {
+                    console.log('clicked', d)})
+            
+            )
+
 
         let legend = d3.select('#legend')
             .append('rect')
@@ -130,7 +166,7 @@ class MapViz {
             .attr("transform", "translate(650 475)")
             .attr('fill', 'url(#color-gradient)');
 
-        let legendColor = d3.range(10).map(d=> ({color:d3.interpolateYlOrRd(d/10), value:d}))
+        let legendColor = d3.range(10).map(d=> ({color:d3.interpolateGnBu(d/10), value:d}))
         let extent = d3.extent(legendColor, d => d.value); 
         
         let linearGradient = d3.select('#color-gradient')
@@ -140,17 +176,70 @@ class MapViz {
         .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
         .attr("stop-color", d => d.color);
 
-        d3.select("#legend")
+        d3.select("#start")
             .append("text")
             .attr("transform", "translate(655 470)")
             .text("0");
 
         let gMax = d3.max(values)
-        
-        d3.select("#legend")
+
+        let z 
+
+        if(metric == "Price Per Gallon (USD)"){
+            z=770
+        }
+
+        if( metric == "World Share"){
+            z=780
+        }
+
+        if( metric == "Yearly Gallons Per Capita"){
+            z=750
+        }
+        if(metric == "GDP Per Capita ( USD )"){
+            z=773
+        }   
+
+        d3.select("#end")
+            .remove()
+
+        d3.select("#legend").append("g")
+        .attr("id", "end") 
             .append("text")
-            .attr("transform", "translate(770 470)")
-            .text(gMax);
+            .attr("transform", "translate("+z+" 470)")
+            .text(gMax)
+        
+        // d3.select("#end")
+        // .data(gMax)
+        // .join(
+        //     enter => enter
+        //     .append("text")
+        //     .attr("transform", "translate(770 470)")
+        //     .text(gMax),
+      
+        //     update => update
+        //     .append("text")
+        //     .attr("transform", "translate(770 470)")
+        //     .text(gMax)
+        //     ,
+
+        //     exit => exit
+        //     .remove()
+        
+        // )
+
+        // var text = d3.select("#end")
+
+        // text.exit().remove();
+      
+        // text.enter()
+        // .append("text")
+        // .attr("transform", "translate(770 470)")
+        // .text(gMax),
+          
+        // text.text(gMax)
+        
+
 
         stateD3.on("click", (d) => this.updateSelectedCountries(d));
 
