@@ -85,10 +85,9 @@ class CountryTable{
 
 
   updateTable (){
-
     //   ///FORMATTING DATA///
     const formattedData = this.data
-      .filter(d => this.filter.length ? this.filter.includes(d.Country) : true)
+      .filter(d => this.filter.length ? this.filter.includes(d) : true)
       .map((d) => {
         return {
             country: d['Country'],
@@ -97,6 +96,7 @@ class CountryTable{
             YGPC: d['Yearly Gallons Per Capita'],
         };
       });
+      console.log(formattedData)
 
       const tableRows = this.tableBody
       .selectAll('tr')
@@ -125,11 +125,27 @@ class CountryTable{
   updateFilter (filter){
 
     if (filter && filter.length) {
-        this.filter = filter;
+
+        let filteredData = this.data.filter(function (d) {
+            if (filter.includes(d.iso_code)) {
+              return d;
+            }
+            });
+
+
+        this.filter = filteredData;
         this.updateTable();
+
+
       } else {
         this.filter = [];
       }
+  }
+
+  resetTable(){
+    this.filter = [];
+    this.updateTable();
+
   }
 
   sorter (sortKeywordInput){

@@ -12,10 +12,10 @@ class MapViz {
  
 
         let world_data = this.petrolPricesViz.mapData;
-        console.log("abc" + world_data);
+        //console.log("abc" + world_data);
 
         this.nation = topojson.feature(world_data, world_data.objects.countries);
-        console.log(this.nation.features);
+        //console.log(this.nation.features);
 
         this.countries = [];
         for (let x of this.nation.features) {
@@ -59,7 +59,7 @@ class MapViz {
     updateMap(metric){
 
         let petrol_data = this.petrolPricesViz.petrolData;
-        console.log(petrol_data);
+        //console.log(petrol_data);
         let pData = 10
 
 
@@ -70,7 +70,7 @@ class MapViz {
                 if (y == x.iso_code) {
                     if (x[metric] != "") {
                         dict[y] = parseFloat(x[metric]);
-                        console.log(petrol_data);
+                        //console.log(petrol_data);
                         temp = false
                     }
                 }
@@ -82,7 +82,7 @@ class MapViz {
 
         var values = Object.values(dict);
 
-        console.log("Aa" + d3.max(values));
+        //console.log("Aa" + d3.max(values));
         let path = d3.geoPath().projection(this.projection);
 
 
@@ -119,7 +119,7 @@ class MapViz {
             .attr('fill', (d) => colorScale(dict[d.id]))
             .attr('stroke', 'lightgrey')
             .on('click', (d) => {
-                console.log('clicked', d)
+                //console.log('clicked', d)
             })
 
         let legend = d3.select('#legend')
@@ -177,10 +177,14 @@ class MapViz {
           }
 
           let selected = this.petrolPricesViz.selectedLocations;
-          console.log(this.petrolPricesViz.selectedLocations);
+          //console.log(this.petrolPricesViz.selectedLocations);
 
           if (selected.length > 0) {
             this.petrolPricesViz.barChart.drawBars(selected);
+            //console.log(selected)
+            this.petrolPricesViz.table.updateFilter(selected);
+
+
           } 
           else {
             this.petrolPricesViz.barChart.update("Price Per Gallon (USD)");
