@@ -72,7 +72,7 @@ class CountryTable{
           .style("text-anchor", "middle")
           .style("font-weight", "700")
           .attr("transform", (d) => {
-            return `translate(${((SIZE_DICT[d.key] ) / 2)}, 20)`;
+            return `translate(${(SIZE_DICT[d.key] ) / 2}, 20)`;
           });
 
           //TODO:
@@ -110,7 +110,7 @@ class CountryTable{
       .attr('class', 'table-cell');
 
     allCells.text(d => d.value)
-    .style('width', d => `${SIZE_DICT[d.key]+50}px`)
+    .style('width', d => `${SIZE_DICT[d.key]}px`)
     .style('height', '25px');
 
 
