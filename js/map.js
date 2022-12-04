@@ -270,6 +270,7 @@ class MapViz {
 
           if (selected.length > 0) {
             this.petrolPricesViz.barChart.drawBars(selected);
+            this.petrolPricesViz.table.updateFilter(selected);
           } 
           else {
             this.petrolPricesViz.barChart.update("Price Per Gallon (USD)");
