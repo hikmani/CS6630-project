@@ -3,13 +3,16 @@
 async function loadData () {
     const petrolData = await d3.csv('data/processedDataset.csv');
     const mapData = await d3.json('data/world.json');
-    return { petrolData, mapData };
+    const petrolTimeData = await d3.csv('data/cleanedPetrolData.csv');
+
+    return { petrolData, mapData, petrolTimeData };
   }
   
   const petrolPricesViz = {
     selectedLocations: [],
     petrolData: null,
     mapData: null,
+    petrolTimeData: null,
     worldMap: null,
     barChart: null,
     lineChart: null,
@@ -23,6 +26,7 @@ async function loadData () {
     // Store the loaded data into the petrolPricesViz
     petrolPricesViz.petrolData = loadedData.petrolData;
     petrolPricesViz.mapData = loadedData.mapData;
+    petrolPricesViz.petrolTimeData = loadedData.petrolTimeData;
   
     // Creates the view objects with the global state passed in 
     const worldMap = new MapViz(petrolPricesViz);
