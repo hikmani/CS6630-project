@@ -271,9 +271,16 @@ class MapViz {
           if (selected.length > 0) {
             this.petrolPricesViz.barChart.drawBars(selected);
             this.petrolPricesViz.table.updateFilter(selected);
+            this.petrolPricesViz.lineChart.update2(selected);
+
           } 
           else {
             this.petrolPricesViz.barChart.update("Price Per Gallon (USD)");
+            this.petrolPricesViz.lineChart.update();
+            this.petrolPricesViz.table.resetTable();
+
+
+            
 
           }
 
