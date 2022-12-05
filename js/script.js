@@ -58,6 +58,8 @@ async function loadData () {
       worldMap.updateMap("Price Per Gallon (USD)");
       table.resetTable();
       document.getElementById('metric').options[1].selected =true;
+      petrolPricesViz.lineChart.update();
+
 
 
     });
