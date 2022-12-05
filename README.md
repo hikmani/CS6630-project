@@ -9,8 +9,7 @@ Ahmed Al Hikmani, Aniket Karna, Prajeet Reddy Vakiti
 Project Title - Visualization of Petrol Stats by Country
 Project Repository - https://github.com/thatA7MAD/CS6630-project
 
-Project Website - Github Readme
-(Note: The visualization looks best on 67% screen resolution on Google Chrome)
+Project Website - https://vprajeetreddy-404.github.io/
 
 Project Screen-Cast - Github Readme
 
