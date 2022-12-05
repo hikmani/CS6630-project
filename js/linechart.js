@@ -59,7 +59,7 @@ d3.select('#Linechart-svg')
 .append('path');
 
     const yScale= d3.scaleLinear()
-    .domain([0, Math.max(...this.data.map((row) => row['pump price']))])
+    .domain([0, Math.max(...this.data.map((row) => row['pump price']*3.78))])
     .range([CHART_HEIGHT - MARGIN.bottom - MARGIN.top, 0])
     .nice();
     //.domain([0, d3.max(this.data.map(d => parseInt(d['pump price'])))])
@@ -102,15 +102,18 @@ const colorScale = d3.scaleOrdinal(d3.schemeTableau10).domain([...countryNames])
     d3.select('#Linechart-svg')
       .append('text')
       .text('Year')
-      .attr('x', 966)
+      .style("font", "12px times")
+      .attr('x', 510)
       .attr('y', CHART_HEIGHT);
 
           // Append Y axis label
     d3.select('#Linechart-svg')
     .append('text')
-    .text('Pump Price')
+    .text('Pump Price USD per Gallon')
+    .style("font", "12px times")
     .attr('x', 0)
-    .attr('y', 12);
+    .attr('y', 11);
+
 
     d3.select('#Linechart-y-axis')
     .call(d3.axisLeft(yScale))
@@ -144,7 +147,7 @@ let svg =d3.select('#Linechart-svg')
       .attr('d', ([country, values]) => {
         return d3.line()
           .x((d) => xScale(new Date(d.year)) )
-          .y((d) => yScale(d['pump price']))
+          .y((d) => yScale(d['pump price']*3.78))
           (values);
       });
 
@@ -162,7 +165,7 @@ let svg =d3.select('#Linechart-svg')
     .enter()
     .append("circle")
       .attr("cx", (d) => xScale(new Date(d.year)) )
-      .attr("cy", (d) => yScale(d['pump price']))
+      .attr("cy", (d) => yScale(d['pump price']*3.78))
       .attr("r", 5)
       .attr("fill", (d) => colorScale(d['Country Name']))
       .attr("stroke-width", 3)
@@ -312,7 +315,7 @@ d3.select('#Linechart-svg')
 
 
   const yScale= d3.scaleLinear()
-  .domain([0, Math.max(...this.data.map((row) => row['pump price']))])
+  .domain([0, Math.max(...this.data.map((row) => row['pump price']*3.78))])
   .range([CHART_HEIGHT - MARGIN.bottom - MARGIN.top, 0])
   .nice();
   //.domain([0, d3.max(this.data.map(d => parseInt(d['pump price'])))])
@@ -354,16 +357,18 @@ const colorScale = d3.scaleOrdinal(d3.schemeTableau10).domain([...countryNames])
   // Append x axis label
   d3.select('#Linechart-svg')
     .append('text')
+    .style("font", "12px times")
     .text('Year')
-    .attr('x', 966)
+    .attr('x', 510)
     .attr('y', CHART_HEIGHT);
 
         // Append Y axis label
-  d3.select('#Linechart-svg')
-  .append('text')
-  .text('Pump Price')
-  .attr('x', 0)
-  .attr('y', 12);
+        d3.select('#Linechart-svg')
+        .append('text')
+        .text('Pump Price USD per Gallon')
+        .style("font", "12px times")
+        .attr('x', 0)
+        .attr('y', 11);
 
   d3.select('#Linechart-y-axis')
   .call(d3.axisLeft(yScale))
@@ -397,7 +402,7 @@ let svg =d3.select('#Linechart-svg')
     .attr('d', ([country, values]) => {
       return d3.line()
         .x((d) => xScale(new Date(d.year)) )
-        .y((d) => yScale(d['pump price']))
+        .y((d) => yScale(d['pump price']*3.78))
         (values);
     });
 
@@ -415,7 +420,7 @@ let svg =d3.select('#Linechart-svg')
   .enter()
   .append("circle")
     .attr("cx", (d) => xScale(new Date(d.year)) )
-    .attr("cy", (d) => yScale(d['pump price']))
+    .attr("cy", (d) => yScale(d['pump price']*3.78))
     .attr("r", 5)
     .attr("fill", (d) => colorScale(d['Country Name']))
     .attr("stroke-width", 3)
