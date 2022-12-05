@@ -139,10 +139,10 @@ let svg =d3.select('#Linechart-svg')
           (values);
       });
 
-      d3.select('#Linechart-svg')
-      .append('g')
-      .attr('id', 'overlay')
-      .append('line')
+      // d3.select('#Linechart-svg')
+      // .append('g')
+      // .attr('id', 'overlay')
+      // .append('line')
 
 
           // Add the points
@@ -259,15 +259,14 @@ let svg =d3.select('#Linechart-svg')
     
     
 }
-update(data){
-  let countries = [];
-  this.petrolPricesViz.filteredTimeDate.forEach(row => {
-    countries.push(row['Country'])
-  });
+update2(data){
 
-      this.data = petrolPricesViz.petrolTimeData.filter(row => countries.includes(row['Country Name']) )
-      console.log(this.petrolPricesViz.filteredTimeDate)
+  this.data =  petrolPricesViz.petrolTimeData;
+
 this.update();
+
+
+
 }
 
 

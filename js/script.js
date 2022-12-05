@@ -69,7 +69,7 @@ async function loadData () {
       d3.select("#countries").selectAll("path").attr("class", "country");
       petrolPricesViz.barChart.update(this.value)
       petrolPricesViz.worldMap.updateMap(this.value)
-      //petrolPricesViz.lineChart.update();
+      petrolPricesViz.lineChart.update2();
       table.resetTable();
 
     });
