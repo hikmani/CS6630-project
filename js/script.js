@@ -11,6 +11,7 @@ async function loadData () {
   const petrolPricesViz = {
     selectedLocations: [],
     petrolData: null,
+    filteredTimeDate: null,
     mapData: null,
     petrolTimeData: null,
     worldMap: null,
@@ -68,6 +69,7 @@ async function loadData () {
       d3.select("#countries").selectAll("path").attr("class", "country");
       petrolPricesViz.barChart.update(this.value)
       petrolPricesViz.worldMap.updateMap(this.value)
+      //petrolPricesViz.lineChart.update();
       table.resetTable();
 
     });

@@ -22,6 +22,7 @@
 }
 #Linechart-div {
   float: left;
+  position: relative;
 }
 
 #info-box {
@@ -133,3 +134,7 @@ svg {
     text {
       fill: black;
     }
+
+.tooltip {
+  position: absolute;
+}

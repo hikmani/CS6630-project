@@ -80,6 +80,7 @@ console.log(metric);
   let filteredData = sortedByPrice.slice(0, 10);
   console.log(filteredData)
 
+  this.petrolPricesViz.filteredTimeDate = filteredData;
 
 
       const heightScale = d3.scaleLinear()

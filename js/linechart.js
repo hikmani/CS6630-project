@@ -28,16 +28,27 @@ class LineChart{
       this.petrolPricesViz = petrolPricesViz;
   
       this.data = petrolPricesViz.petrolTimeData;
+  let countries = [];
+  this.petrolPricesViz.filteredTimeDate.forEach(row => {
+    countries.push(row['Country'])
+  });
+
+      this.data = petrolPricesViz.petrolTimeData.filter(row => countries.includes(row['Country Name']) )
+      console.log(this.petrolPricesViz.filteredTimeDate)
+
+
       this.update();
 
 
-      let test = petrolPricesViz.petrolData;
 
 
       
   }
 
 update(){
+
+
+
 
     const yScale= d3.scaleLinear()
     .domain([0, Math.max(...this.data.map((row) => row['pump price']))])
@@ -96,6 +107,18 @@ const colorScale = d3.scaleOrdinal(d3.schemeTableau10).domain([...countryNames])
     .call(d3.axisLeft(yScale))
     .attr('transform', `translate(${MARGIN.left}, ${MARGIN.top})`);
 
+    var tooltip = d3.select("#Linechart-div")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("top", "0")
+    .style("left", "0")
+
     
 
 //Append lines
@@ -121,56 +144,104 @@ let svg =d3.select('#Linechart-svg')
       .attr('id', 'overlay')
       .append('line')
 
+
+          // Add the points
+    d3.select('#Linechart-svg')
+    .append("g")
+    .selectAll("dot")
+    .data(this.data)
+    .enter()
+    .append("circle")
+      .attr("cx", (d) => xScale(new Date(d.year)) )
+      .attr("cy", (d) => yScale(d['pump price']))
+      .attr("r", 5)
+      .attr("fill", (d) => colorScale(d['Country Name']))
+      .attr("stroke-width", 3)
+
+
+
+  // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // Its opacity is set to 0: we don't see it by default.
+
+
+      // A function that change this tooltip when the user hover a point.
+  // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
+  var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+  }
+
+  var mousemove = function(d, values) {
+    tooltip
+      .html(values[0])
+      .style("left", d.offsetX+ "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      .style("top", d.offsetY-30+ "px")
+  }
+
+  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+  // var mouseleave = function(d) {
+  //   tooltip
+  //     .transition()
+  //     .duration(200)
+  //     .style("opacity", 0)
+  // }
+
+  svg.on("mouseover", mouseover )
+  svg.on("mousemove", mousemove )
+  //svg.on("mouseleave", mouseleave )
+
           // Add an interaction for the x position over the lines
-    svg.on('mousemove', (event) => {
-      const svgEdge = svg.node().getBoundingClientRect().x;
-      const distanceFromSVGEdge = event.clientX - svgEdge;
+    // svg.on('mousemove', (event) => {
+    //   // const svgEdge = svg.node().getBoundingClientRect().x;
+    //   // const distanceFromSVGEdge = event.clientX - svgEdge;
 
-      if (distanceFromSVGEdge > 0) {
-        // Set the line position
-console.log('twst')
-        svg
-          .select('#overlay')
-          .select('line')
-          .attr('stroke', 'black')
-          .attr('x1', distanceFromSVGEdge)
-          .attr('x2', distanceFromSVGEdge)
-          .attr('y1', CHART_HEIGHT - 0)
-          .attr('y2', 0);
+    //   if (event.offsetX > 10 && event.offsetX < CHART_WIDTH ) {
+    //     // Set the line position
+    //     // d3
+    //     // .select('#overlay')
+    //     // .select('line')
+    //     // .attr('stroke', 'black')
+    //     // .attr('x1', event.offsetX)
+    //     // .attr('x2', event.offsetX)
+    //     // .attr('y1', 0)
+    //     // .attr('y2', CHART_HEIGHT );
 
-        // Find the relevant data (by date and location)
-        const dateHovered = xScale.invert(distanceFromSVGEdge - 0).toISOString().substring(0, 10);
-        const filteredData = petrolPricesViz.petrolTimeData
-          .filter((row) => (
-            row.year === dateHovered
-            && (
-              (petrolPricesViz.selectedLocations.length > 0 &&
-                petrolPricesViz.selectedLocations.includes(row['Country ISO Code']))
-              ||
-              (petrolPricesViz.selectedLocations.length === 0 )
-            )
-          ))
-          .sort((rowA, rowB) => rowB['pump price'] - rowA['pump price']);
+    //     // Find the relevant data (by date and location)
+    //     const dateHovered = xScale.invert(event.offsetX);
+    //     var options = { year: 'numeric'};
+    //     //console.log(dateHovered.toLocaleDateString('en-CA',options))
 
-        // // Remove any existing text
-        // this.svg
-        //     .select('#overlay')
-        //     .selectAll('text')
-        //     .remove();
+    //     const filteredData = petrolPricesViz.petrolTimeData
+    //       .filter((row) => (
+    //         row.year === dateHovered.toLocaleDateString('en-CA',options)
+    //         && (
+    //           (petrolPricesViz.selectedLocations.length > 0 &&
+    //             petrolPricesViz.selectedLocations.includes(row['Country ISO Code']))
+    //           ||
+    //           (petrolPricesViz.selectedLocations.length === 0 )
+    //         )
+    //       ))
+    //       .sort((rowA, rowB) => rowB['pump price'] - rowA['pump price']);
 
-        // Add text to the SVG
-        svg.select('#overlay')
-        .selectAll('text')
-          .data(filteredData)
-          .join('text')
-          .text((d) => `${d['Country Name']}, ${d3.format(".2s")(d['pump price'])}`)
-          // .attr('x', distanceFromSVGEdge > 500 ? distanceFromSVGEdge - 200 : distanceFromSVGEdge + 5)
-          .attr('x', distanceFromSVGEdge > 500 ? distanceFromSVGEdge - 5 : distanceFromSVGEdge + 5)
-          .attr('text-anchor', distanceFromSVGEdge > 500 ? 'end' : 'start')
-          .attr('y', (d, i) => (i + 1) * 20)
-          .attr('fill', (d) => colorScale(d['Country Name']));
-      }
-    });
+    //     // // Remove any existing text
+    //     // this.svg
+    //     //     .select('#overlay')
+    //     //     .selectAll('text')
+    //     //     .remove();
+
+    //     // Add text to the SVG
+    //     // d3.select('#overlay')
+    //     // .selectAll('text')
+    //     //   .data(filteredData)
+    //     //   .join('text')
+    //     //   .text((d) => `${d['Country Name']}, ${d3.format(".2s")(d['pump price'])}`)
+    //     //   // .attr('x', distanceFromSVGEdge > 500 ? distanceFromSVGEdge - 200 : distanceFromSVGEdge + 5)
+    //     //   .attr('x', event.offsetX > 500 ? event.offsetX - 170 : event.offsetX + 5)
+    //     //   .attr('alignment-baseline', 'hanging')
+    //     //   .attr('y', (d, i) => (i + 1) * 20)
+    //     //   .attr('fill', (d) => colorScale(d['Country Name']));
+    //   }
+    // });
 
 
 
@@ -188,7 +259,16 @@ console.log('twst')
     
     
 }
+update(data){
+  let countries = [];
+  this.petrolPricesViz.filteredTimeDate.forEach(row => {
+    countries.push(row['Country'])
+  });
 
+      this.data = petrolPricesViz.petrolTimeData.filter(row => countries.includes(row['Country Name']) )
+      console.log(this.petrolPricesViz.filteredTimeDate)
+this.update();
+}
 
 
 
